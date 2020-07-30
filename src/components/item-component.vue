@@ -3,7 +3,7 @@
     <span v-bind:class="{done: list.completed}">
         <input type="checkbox" v-on:change = "clickCheckbox">
       <strong class="ml">{{index + 1}}</strong>
-      {{list.title}}
+      {{list.title | uppercase}}
     </span>
       <button class="remove"
               v-on:click="$emit('remove-list', list.id)"
@@ -23,6 +23,11 @@ export default {
   methods: {
     clickCheckbox () {
       this.list.completed = !this.list.completed
+    }
+  },
+  filters: {
+    uppercase (value) {
+      return value.toUpperCase()
     }
   }
 }

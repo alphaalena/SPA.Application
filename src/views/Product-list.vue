@@ -1,45 +1,29 @@
 <template>
   <div class="list">
     <h1>Список  обязательных товаров: </h1>
-    <add-list-component @add-list="addList"/>
+    <router-link to="/home">Главная</router-link>
     <hr>
+    <add-list-component @add-list="addList"/>
+    <loader-component v-if="loading"/>
     <list-component
+      v-else-if="lists.length"
       v-bind:lists="lists"
       v-on:remove-list="removeList"
     />
-    <router-link to="/home">Главная</router-link>
+    <p class="paragraph" v-else>Список пуст</p>
   </div>
 </template>
 <script>
 import ListComponent from '../components/list-component'
 import AddListComponent from '../components/add-list-component'
+import LoaderComponent from '../components/loader-component'
 
 export default {
-  components: { AddListComponent, ListComponent },
+  components: { LoaderComponent, AddListComponent, ListComponent },
   data () {
     return {
-      lists: [
-        {
-          id: 1,
-          title: 'Купи хлеб',
-          completed: false
-        },
-        {
-          id: 2,
-          title: 'Купи мясо',
-          completed: false
-        },
-        {
-          id: 3,
-          title: 'Купи мороженое',
-          completed: false
-        },
-        {
-          id: 4,
-          title: 'Купи яйца',
-          completed: false
-        }
-      ]
+      lists: [],
+      loading:true
     }
   },
   methods: {
@@ -49,6 +33,23 @@ export default {
     addList (list) {
       this.lists.push(list)
     }
+  },
+  mounted () {
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=8')
+      .then(response => response.json())
+      .then(json => {
+        setTimeout(() => {
+          this.lists = json
+          this.loading = false
+        }, 500)
+      })
   }
 }
 </script>
+<style scoped>
+  .paragraph {
+    font-size: 24px;
+    color: #1c1c1c;
+    text-decoration: ActiveBorder;
+  }
+</style>
