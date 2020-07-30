@@ -4,10 +4,15 @@
     <router-link to="/home">Главная</router-link>
     <hr>
     <add-list-component @add-list="addList"/>
+    <select class="filter" v-model="filter">
+      <option value="oll">Весь список</option>
+      <option value="completed">Завершенные</option>
+      <option value="not-completed">Не завершенные</option>
+    </select>
     <loader-component v-if="loading"/>
     <list-component
-      v-else-if="lists.length"
-      v-bind:lists="lists"
+      v-else-if="filterLists.length"
+      v-bind:lists="filterLists"
       v-on:remove-list="removeList"
     />
     <p class="paragraph" v-else>Список пуст</p>
@@ -23,7 +28,8 @@ export default {
   data () {
     return {
       lists: [],
-      loading:true
+      loading: true,
+      filter: 'all'
     }
   },
   methods: {
@@ -43,6 +49,19 @@ export default {
           this.loading = false
         }, 500)
       })
+  },
+  computed: {
+    filterLists () {
+      if (this.filter === 'all') {
+        return this.lists
+      }
+      if (this.filter === 'completed') {
+        return this.lists.filter(l => l.completed)
+      }
+      if (this.filter === 'not-completed') {
+        return this.lists.filter(l => !l.completed)
+      }
+    }
   }
 }
 </script>
@@ -51,5 +70,13 @@ export default {
     font-size: 24px;
     color: #1c1c1c;
     text-decoration: ActiveBorder;
+  }
+  .filter{
+    padding: 10px;
+    margin: 20px;
+    width: 400px;
+    text-transform: uppercase;
+    text-align: center;
+    background-color: #aeaeae;
   }
 </style>
