@@ -5,7 +5,7 @@
     <hr>
     <add-list-component @add-list="addList"/>
     <select class="filter" v-model="filter">
-      <option value="oll">Весь список</option>
+      <option value="all">Весь список</option>
       <option value="completed">Завершенные</option>
       <option value="not-completed">Не завершенные</option>
     </select>
