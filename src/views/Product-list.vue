@@ -12,8 +12,8 @@
     <loader-component v-if="loading"/>
     <list-component
       v-else-if="filterLists.length"
-      v-bind:lists="filterLists"
-      v-on:remove-list="removeList"
+      :lists="filterLists"
+      @remove-list="removeList"
     />
     <p class="paragraph" v-else>Список пуст</p>
   </div>

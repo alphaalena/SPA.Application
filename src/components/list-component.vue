@@ -4,7 +4,7 @@
     <item-component v-for="(list, id) in lists"
                     v-bind:index="id"
                     v-bind:list="list"
-                    v-on:remove-list="removeList"
+                    @remove-list="removeList"
     ></item-component>
   </ul>
 </div>

@@ -6,7 +6,7 @@
       {{list.title | uppercase}}
     </span>
       <button class="remove"
-              v-on:click="$emit('remove-list', list.id)"
+              v-on:click="removeList"
       >&times;</button>
     </li>
 </template>
@@ -16,13 +16,16 @@ export default {
   props: {
     list: {
       type: Object,
-      REQUIRED: true
+      required: true
     },
     index: Number
   },
   methods: {
     clickCheckbox () {
       this.list.completed = !this.list.completed
+    },
+    removeList () {
+      this.$emit('remove-list', this.list.id)
     }
   },
   filters: {
